@@ -7,7 +7,7 @@
 > Futuramente pretendo desenvolver esta mesma função por fetch, consumindo a API.
 
 ### Informaões:
- Este projeto foi desenvolvido na base do JavaScript puro para manipular DOM.
+ Este projeto foi desenvolvido na base do JavaScript puro para uma automação usando manipulação DOM.
  
 
 ### Este bot conte:
