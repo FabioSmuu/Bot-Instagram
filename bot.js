@@ -31,7 +31,7 @@ const bot = {
 				return clearTimeout(search)
 			}
 
-			if (array.lenght < index) {
+			if (array.lenght-1 == index) {
 				bot.cancelMessage()
 				return clearTimeout(search)
 			}
