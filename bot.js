@@ -20,7 +20,7 @@ const bot = {
 		if (getButton) button.click()
 	},
 
-	clickOption(button, index) {
+	clickOption(button, index, array) {
 		const findOptino = () => {
 			const { innerText } = button.querySelector('div') || {}
 			if (!innerText) return
@@ -31,7 +31,10 @@ const bot = {
 				return clearTimeout(search)
 			}
 
-			if (array.lenght < index) return bot.cancelMessage()
+			if (array.lenght < index) {
+				bot.cancelMessage()
+				return clearTimeout(search)
+			}
 		}
 
 		const search = setTimeout(findOptino, index * 120)
