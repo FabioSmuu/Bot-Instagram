@@ -30,6 +30,8 @@ const bot = {
 				bot.clickDialog()
 				return clearTimeout(search)
 			}
+
+			if (array.lenght < index) return bot.cancelMessage()
 		}
 
 		const search = setTimeout(findOptino, index * 120)
