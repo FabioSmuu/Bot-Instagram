@@ -4,7 +4,10 @@
 
 > **Aviso**: Este bot tem como intuito, usar a ação de "Canelar envio" de todas as mensagens.
 
-> Futuramente pretendo desenvolver esta mesma função por fetch, consumindo a API.
+> O arquivo [botFetch.js](/botFetch.js) ainda esta em desenvolvimento.
+> 
+> Se trata de um bot de instagram que faz requisições na api nativa da plataforma.
+> Futuramente será possível executar em nodejs.
 
 ### Informaões:
  Este projeto foi desenvolvido na base do JavaScript puro para uma automação usando manipulação DOM.
