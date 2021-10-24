@@ -80,4 +80,4 @@ const createBot = async (ig_id) => {
     core(bot)
 }
 
-await createBot('936619743392459')
+await createBot('936**********59')
