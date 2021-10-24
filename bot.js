@@ -3,7 +3,7 @@ const bot = {
 
 	confirDialog(button) {
 		const { innerText } = button || {}
-		if (!innerText) return
+		if (!innerText) return console.warn('[@] Dialogo inexistente.')
 
 		if (innerText == 'Cancelar envio') {
 			button.click()
@@ -15,7 +15,7 @@ const bot = {
 		const dialog = document.querySelector('div[role="dialog"]')
 		const buttons = dialog.querySelectorAll('button')
 		buttons.forEach(this.confirDialog)
-		return dialog
+		return true
 	},
 
 	clickMenu(button) {
@@ -27,7 +27,7 @@ const bot = {
 		const buttons = Array.from(document.querySelectorAll('div'))
 		const btn = buttons.find(element => element.innerText === 'Cancelar envio')
 
-		if (!btn) return
+		if (!btn) return console.warn('[@] Botão de cancelar envio não foi encontrado.')
 		const [element] = btn.childNodes
 		element.click()
 
@@ -40,10 +40,10 @@ const bot = {
 	cancelMessage() {
 		const messages = Array.from(document.querySelectorAll('div[role="listbox"]'))//.entries()
 		const message =	messages.find(message => Array.from(message.querySelectorAll('button')).length < 7)
-		if (!message) return
+		if (!message) return console.warn('[@] Sem menssagens legiveis.')
 
 		const mouseover = new MouseEvent('mouseover', { view: window, bubbles: true, cancelable: true })
-		if (!message.dispatchEvent(mouseover)) return
+		if (!message.dispatchEvent(mouseover)) return console.warn('[@] Não foi possivel abrir o menu.')
 
 		this.clickMenu(message)
 		this.clickOption(message)
