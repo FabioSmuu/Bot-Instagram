@@ -52,7 +52,7 @@
 			return this[fn](message)
 		},
 
-		rule(message, ...fns) {
+		orderFunctions(message, ...fns) {
 			const order = (message, fn) => message = this.checkedRule(message, fn)
 			const result = fns.reduce(order, message) || 'cancelMessage'
 
@@ -67,7 +67,7 @@
 			const mouseover = new MouseEvent('mouseover', { view: window, bubbles: true, cancelable: true })
 			if (!message.dispatchEvent(mouseover)) return
 
-			this.rule(message,
+			this.orderFunctions(message,
 				'getYouMessage',
 				'clickMenu',
 				'selectOption',
