@@ -1,4 +1,6 @@
 const bot = {
+	delay: 1,
+
 	confirDialog(button) {
 		const { innerText } = button || {}
 		if (!innerText) return
@@ -32,7 +34,7 @@ const bot = {
 		setTimeout(() => {
 			const dialog = this.clickDialog()
 			if (dialog) return clearTimeout(this)
-		}, 1)
+		}, this.delay)
 	},
 
 	cancelMessage() {
