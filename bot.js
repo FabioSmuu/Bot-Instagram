@@ -13,43 +13,38 @@ const bot = {
 		const dialog = document.querySelector('div[role="dialog"]')
 		const buttons = dialog.querySelectorAll('button')
 		buttons.forEach(this.confirDialog)
+		return dialog
 	},
 
 	clickMenu(button) {
 		const getButton = button.querySelector('svg[aria-label="Cancelar envio"]')
-		if (getButton) button.click()
+		if (getButton) getButton.parentNode.click()
 	},
 
-	clickOption(button, index, array) {
-		const findOptino = () => {
-			const { innerText } = button.querySelector('div') || {}
-			if (!innerText) return
+	clickOption(button) {
+		const buttons = Array.from(document.querySelectorAll('div'))
+		const btn = buttons.find(element => element.innerText === 'Cancelar envio')
 
-			if (innerText == 'Cancelar envio') {
-				button.click()
-				bot.clickDialog()
-				return clearTimeout(search)
-			}
+		if (!btn) return console.log('ops')
+		const [element] = btn.childNodes
+		element.click()
 
-			if (array.lenght-1 == index) {
-				bot.cancelMessage()
-				return clearTimeout(search)
-			}
-		}
-
-		const search = setTimeout(findOptino, index * 120)
+		setTimeout(() => {
+			const dialog = this.clickDialog()
+			if (dialog) return clearTimeout(this)
+		}, 1)
 	},
 
 	cancelMessage() {
-		const [message] = document.querySelectorAll('div[role="listbox"]')
+		const messages = Array.from(document.querySelectorAll('div[role="listbox"]'))//.entries()
+		const message =	messages.find(message => Array.from(message.querySelectorAll('button')).length < 7)
 		if (!message) return
 
 		const mouseover = new MouseEvent('mouseover', { view: window, bubbles: true, cancelable: true })
 		if (!message.dispatchEvent(mouseover)) return
 
-	    const buttons = message.querySelectorAll('button')
-	    buttons.forEach(this.clickMenu)
-	    buttons.forEach(this.clickOption)
+		this.clickMenu(message)
+		this.clickOption(message)
 	}
 }
 
