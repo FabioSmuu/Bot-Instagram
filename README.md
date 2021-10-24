@@ -24,9 +24,13 @@ Vá até a aba do console e cole o script [bot.js](/bot.js).
 
 Quando o script terminar de rodar, você pode facilmente usar o comando: ```js bot.cancelMessage()``` em qualquer outro direct.
 
+###### Primeira versão:
+
 ![N|Solid](https://imgur.com/9xl3l48.gif)
 
+###### Ultimo update:
 
+![N|Solid](https://imgur.com/dOgXjn4.gif)
 
 **Obrigado pela sua atenção!**
 	
