@@ -27,7 +27,7 @@ const bot = {
 		const buttons = Array.from(document.querySelectorAll('div'))
 		const btn = buttons.find(element => element.innerText === 'Cancelar envio')
 
-		if (!btn) return console.log('ops')
+		if (!btn) return
 		const [element] = btn.childNodes
 		element.click()
 
