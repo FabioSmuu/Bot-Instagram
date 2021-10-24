@@ -52,12 +52,14 @@
 			return this[fn](message)
 		},
 
-		orderFunctions(message, ...fns) {
-			const order = (message, fn) => message = this.checkedRule(message, fn)
-			const result = fns.reduce(order, message) || 'cancelMessage'
-
-			if (typeof this[result] !== 'function') return this.cancelMessage()
-			return this[result]()
+		orderFunctions(...fns) {
+			return message => {
+				const order = (message, fn) => message = this.checkedRule(message, fn)
+				const result = fns.reduce(order, message) || 'cancelMessage'
+	
+				if (typeof this[result] !== 'function') return this.cancelMessage()
+				return this[result]()
+			}
 		},
 
 		cancelMessage() {
@@ -67,13 +69,15 @@
 			const mouseover = new MouseEvent('mouseover', { view: window, bubbles: true, cancelable: true })
 			if (!message.dispatchEvent(mouseover)) return
 
-			this.orderFunctions(message,
+			const run = this.orderFunctions(
 				'getYouMessage',
 				'clickMenu',
 				'selectOption',
 				'showMessageDeleted',
 				'confirmDialog'
 			)
+
+			run(message)
 		}
 	}
 
