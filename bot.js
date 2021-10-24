@@ -1,84 +1,88 @@
-	const bot = {
-		messages: Array.from(document.querySelectorAll('div[role="listbox"]')),
+const bot = {
+    delay: 0,
 
-		findElement(parent, query, text) {
-			const component = Array.from(parent.querySelectorAll(query))
-			const result = component.find(element => element.innerText === text)
-			return result
-		},
+    messages: Array.from(document.querySelectorAll('div[role="listbox"]')),
 
-		getYouMessage(message) {
-			const you = !this.findElement(message, 'button', 'Denunciar')
-			if (you) return message
-		},
+    findElement(parent, query, text) {
+        const component = Array.from(parent.querySelectorAll(query))
+        const result = component.find(element => element.innerText === text)
+        return result
+    },
 
-		clickMenu(message) {
-			const getButton = message.querySelector('svg[aria-label="Cancelar envio"]')
-			if (getButton) getButton.parentNode.click()
-			return message
-		},
+    getYouMessage(message) {
+        const you = !this.findElement(message, 'button', 'Denunciar')
+        if (you) return message
+    },
 
-		showMessageDeleted(message) {
-			const getMessage = Array.from(message.querySelectorAll('span'))
-				.reduce((acc, { innerText }) => acc = `${innerText} ` || '', '')
-			if (getMessage) console.log('%cDELETADA', 'background: #f02f01;padding:5px;', getMessage)
+    clickMenu(message) {
+        const getButton = message.querySelector('svg[aria-label="Cancelar envio"]')
+        if (getButton) getButton.parentNode.click()
+        return message
+    },
 
-			return message
-		},
+    showMessageDeleted(message) {
+        const getMessage = Array.from(message.querySelectorAll('span'))
+            .reduce((acc, { innerText }) => acc = `${innerText} ` || '', '')
+        if (getMessage) console.log('%cDELETADA', 'background: #f02f01;padding:5px;', getMessage)
 
-		selectOption(message) {
-			const btn = this.findElement(document, 'div', 'Cancelar envio')
-			if (!btn) return
+        return message
+    },
 
-			const [element] = btn.childNodes
-			element.click()
-		
-			return message
-		},
+    selectOption(message) {
+        const btn = this.findElement(document, 'div', 'Cancelar envio')
+        if (!btn) return
 
-		confirmDialog() {
-			const dialog = document.querySelector('div[role="dialog"]')
-			if (!dialog) return
+        const [element] = btn.childNodes
+        element.click()
 
-			const btn = this.findElement(dialog, 'button', 'Cancelar envio')			
-			if (btn) btn.click()
+        return message
+    },
 
-			return dialog
-		},
+    confirmDialog() {
+        const dialog = document.querySelector('div[role="dialog"]')
+        if (!dialog) return
 
-		checkedRule(message, fn) {
-			if (!message) return this.cancelMessage()
-			//console.log(fn, message)
-			return this[fn](message)
-		},
+        const btn = this.findElement(dialog, 'button', 'Cancelar envio')
+        if (btn) btn.click()
 
-		orderFunctions(...fns) {
-			return message => {
-				const order = (message, fn) => message = this.checkedRule(message, fn)
-				const result = fns.reduce(order, message) || 'cancelMessage'
-	
-				if (typeof this[result] !== 'function') return this.cancelMessage()
-				return this[result]()
-			}
-		},
+        return dialog
+    },
 
-		cancelMessage() {
-			const message = this.messages.shift() || !![].length
-			if (!message) return
+    checkedRule(message, fn) {
+        if (!message) return this.cancelMessage()
+        //console.log(fn, message)
+        return this[fn](message)
+    },
 
-			const mouseover = new MouseEvent('mouseover', { view: window, bubbles: true, cancelable: true })
-			if (!message.dispatchEvent(mouseover)) return
+    orderFunctions(...fns) {
+        return message => {
+            const order = (message, fn) => message = this.checkedRule(message, fn)
+            const result = fns.reduce(order, message) || 'cancelMessage'
 
-			const run = this.orderFunctions(
-				'getYouMessage',
-				'clickMenu',
-				'selectOption',
-				'showMessageDeleted',
-				'confirmDialog'
-			)
+            if (typeof this[result] !== 'function') return this.cancelMessage()
+            return this[result]()
+        }
+    },
 
-			run(message)
-		}
-	}
+    cancelMessage() {
+        const message = this.messages.shift() || !![].length
+        if (!message) return
 
-	bot.cancelMessage()
+        const mouseover = new MouseEvent('mouseover', { view: window, bubbles: true, cancelable: true })
+        if (!message.dispatchEvent(mouseover)) return
+
+        setTimeout(() => {
+            const run = this.orderFunctions(
+                'getYouMessage',
+                'clickMenu',
+                'selectOption',
+                'showMessageDeleted',
+                'confirmDialog'
+            )
+
+            run(message)
+        }, this.delay)
+    }
+}
+
+bot.cancelMessage()
